@@ -1,57 +1,102 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <!-- <video src="../assets/mao.mp4" controls="controls" width="300" height="300">您的浏览器不支持 video 标签。</video> -->
+    <!-- <hr /> -->
+    <video-player
+      class="video-player-box vjs-big-play-centered"
+      ref="videoPlayer"
+      :options="playerOptions"
+      :playsinline="true"
+      customEventName="customstatechangedeventname"
+      @play="onPlayerPlay($event)"
+      @pause="onPlayerPause($event)"
+      @ended="onPlayerEnded($event)"
+      @waiting="onPlayerWaiting($event)"
+      @playing="onPlayerPlaying($event)"
+      @loadeddata="onPlayerLoadeddata($event)"
+      @timeupdate="onPlayerTimeupdate($event)"
+      @canplay="onPlayerCanplay($event)"
+      @canplaythrough="onPlayerCanplaythrough($event)"
+      @statechanged="playerStateChanged($event)"
+      @ready="playerReadied"
+    ></video-player>
   </div>
 </template>
 
 <script>
+import { videoPlayer } from "vue-video-player";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String
+  },
+  components: {
+    videoPlayer
+  },
+  data() {
+    return {
+      // videojs options
+      playerOptions: {
+        width: document.documentElement.clientWidth,
+        height: 300,
+        muted: true,
+        language: "en",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "video/mp4",
+            src:
+              "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+          }
+        ],
+        poster: "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=939047871,4111159124&fm=11&gp=0.jpg"
+      }
+    };
+  },
+  mounted() {
+    console.log("this is current player instance object", this.player);
+  },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player;
+    }
+  },
+  methods: {
+    // listen event
+    onPlayerPlay(player) {
+      console.log("player play!", player);
+    },
+    onPlayerPause(player) {
+      console.log("player pause!", player);
+    },
+    onPlayerEnded() {},
+    onPlayerWaiting() {},
+    onPlayerPlaying() {},
+    onPlayerLoadeddata() {},
+    onPlayerTimeupdate() {},
+    onPlayerCanplay() {},
+    onPlayerCanplaythrough() {},
+    // ...player event
+
+    // or listen state event
+    playerStateChanged(playerCurrentState) {
+      // console.log('player current update state', playerCurrentState)
+    },
+
+    // player is ready
+    playerReadied(player) {
+      console.log("the player is readied", player);
+      // you can use it to do something...
+      // player.[methods]
+    }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.video-player-box {
+  width: 300px;
+  height: 300px;
 }
 </style>

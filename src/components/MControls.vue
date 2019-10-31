@@ -5,8 +5,8 @@
       <div class="track" ref="track"></div>
     </div>
     <div class="end-time">{{totalTime.toFixed(2)}}</div>
-    <div class="rate">{{playRate}}</div>
-    <div class="full-page">全屏</div>
+    <div class="rate" @click="changePlayRate">{{playRate}}</div>
+    <div class="full-page" @click="fullScreen">全屏</div>
   </div>
 </template>
 
@@ -38,6 +38,39 @@ export default {
       let trackWidth = (width / 24) * 10;
       let trackLength = percent * trackWidth;
       trackDom.style.width = trackLength + "px";
+    },
+    //倍速
+    changePlayRate() {
+      let { playRate } = this;
+      if (playRate == "倍速") {
+        this.playRate = 0.8;
+        this.$emit("changePalyRate", 0.8);
+        return false;
+      }
+      if (playRate == 0.8) {
+        this.playRate = 1;
+        this.$emit("changePalyRate", 1);
+        return false;
+      }
+      if (playRate == 1) {
+        this.playRate = 1.5;
+        this.$emit("changePalyRate", 1.5);
+        return false;
+      }
+      if (playRate == 1.5) {
+        this.playRate = 2;
+        this.$emit("changePalyRate", 2);
+        return false;
+      }
+      if (playRate == 2) {
+        this.playRate = "倍速";
+        this.$emit("changePalyRate", 1);
+        return false;
+      }
+    },
+    //全屏
+    fullScreen() {
+      this.$emit("fullScreen");
     }
   }
 };

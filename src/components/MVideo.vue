@@ -20,7 +20,12 @@
       <!-- 播放/暂停按钮 -->
       <div class="text-container" @click="clickMock" v-show="showText">{{DomText}}</div>
     </div>
-    <m-controls :hadPlayTime="timeDisplay" :totalTime="totalTime"></m-controls>
+    <m-controls
+      :hadPlayTime="timeDisplay"
+      :totalTime="totalTime"
+      @changePalyRate="changeRate"
+      @fullScreen="fullPage"
+    ></m-controls>
     <!-- <div class="detail">商品详情展示</div> -->
   </div>
 </template>
@@ -66,7 +71,7 @@ export default {
     this.clientWidth = document.documentElement.clientWidth;
     setTimeout(() => {
       this.totalTime = this.refDom.duration;
-    }, 60);
+    }, 300);
     this.refDom.addEventListener(
       "timeupdate",
       () => {
@@ -117,14 +122,11 @@ export default {
       }, 60);
     },
     // 改变倍速
-    changeRate() {
-      console.log("changeRate");
-      this.refDom.playbackRate = 2;
-      this.playRate = 2.0;
+    changeRate(rate) {
+      this.refDom.playbackRate = rate;
     },
     // 全屏
     fullPage() {
-      console.log("fullPage");
       FullScreen();
     }
   }

@@ -10,22 +10,18 @@
         :height="height"
         poster="../assets/post.jpg"
       >您的浏览器不支持 video 标签。</video>
-      <div class="center-progress">
-        <span class="start-time">{{timeDisplay}}</span>
-        <span class="continue-time">————</span>
-        <span class="end-time">{{totalTime}}</span>
-        <span class="rate" @click="changeRate">{{playRate}}</span>
-        <span class="full-page" @click.self.stop="fullPage">全屏</span>
-      </div>
+      <!-- 自定义播放进度条 -->
       <div class="line">
         <div class="wrap" ref="progressWrap">
           <div class="progress" ref="progress"></div>
         </div>
       </div>
       <div class="mock" @click="clickMock"></div>
+      <!-- 播放/暂停按钮 -->
       <div class="text-container" @click="clickMock" v-show="showText">{{DomText}}</div>
     </div>
-    <div class="detail">商品详情展示</div>
+    <m-controls :hadPlayTime="timeDisplay" :totalTime="totalTime"></m-controls>
+    <!-- <div class="detail">商品详情展示</div> -->
   </div>
 </template>
 
@@ -43,6 +39,8 @@ function FullScreen() {
     ele.webkitRequestFullScreen();
   }
 }
+import MControls from "./MControls";
+
 export default {
   data() {
     return {
@@ -64,6 +62,9 @@ export default {
       clientWidth: 0
     };
   },
+  components: {
+    MControls
+  },
   mounted() {
     this.refDom = this.$refs.video;
     this.clientWidth = document.documentElement.clientWidth;
@@ -74,9 +75,7 @@ export default {
       "timeupdate",
       () => {
         //用秒数来显示当前播放进度
-        let playSecond = Math.floor(video.currentTime.toFixed(2));
-
-        this.timeDisplay = playSecond;
+        this.timeDisplay = video.currentTime;
       },
       false
     );
@@ -85,8 +84,6 @@ export default {
     // 播放/暂停
     clickMock() {
       if (this.refDom.paused) {
-        console.log("播放中- :");
-        console.log("currentTime", this.refDom.currentTime);
         this.refDom.play();
         this.DomText = "暂停";
         if (this.showText) {
@@ -98,8 +95,6 @@ export default {
 
         this.go();
       } else {
-        console.log("暂停");
-        console.log("currentTime", this.refDom.currentTime);
         clearInterval(this.goFlag);
         this.refDom.pause();
         this.DomText = "播放";
@@ -169,19 +164,7 @@ export default {
   width: 0px;
   height: 5px;
 }
-.center-progress {
-  position: absolute;
-  bottom: 65px;
-  left: 110px;
-  color: yellow;
-  z-index: 100;
-}
-.center-progress .rate {
-  margin: 0 10px;
-}
-.center-progress .full-page {
-  background: aqua;
-}
+
 .mock {
   background-color: rgba(100, 100, 100, 0);
   width: 100%;

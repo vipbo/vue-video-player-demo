@@ -49,15 +49,11 @@ export default {
       refDom: null,
       DomText: "播放",
       playRate: "倍速",
-      isPause: true,
       showText: false,
       // 视频总时长
       totalTime: 0,
-      // 已经播放过的视频时间
-      currentTime: 0,
       //当前播放时间
       timeDisplay: 0,
-      num: 0,
       goFlag: null,
       clientWidth: 0
     };

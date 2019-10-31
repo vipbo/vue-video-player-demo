@@ -28,7 +28,7 @@
       :totalTime="totalTime"
       @changePalyRate="changeRate"
       @fullScreen="fullPage"
-      v-if="showControls"
+      v-show="showText"
     ></m-controls>
     <!-- <div class="detail">商品详情展示</div> -->
   </div>

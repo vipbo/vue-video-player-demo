@@ -121,13 +121,7 @@ export default {
   width: 35px;
   margin: 0 5px;
 }
-.full-page {
-  /* flex: 5; */
-  /* text-align: left; */
-  /* margin-top: 5px; */
-  /* background-image: url('../assets/quanping.png'); */
-  /* background-repeat: no-repeat; */
-}
+
 .full-page img {
   width: 20px;
   height: 18px;

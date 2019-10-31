@@ -6,7 +6,9 @@
     </div>
     <div class="end-time">{{totalTime.toFixed(2)}}</div>
     <div class="rate" @click="changePlayRate">{{playRate}}</div>
-    <div class="full-page" @click="fullScreen">全屏</div>
+    <div class="full-page" @click="fullScreen">
+      <img src="../assets/big.png" alt="全屏" />
+    </div>
   </div>
 </template>
 
@@ -35,7 +37,7 @@ export default {
     playContinue() {
       let trackDom = this.$refs.track;
       let { width, percent } = this;
-      let trackWidth = (width / 24) * 10;
+      let trackWidth = (width / 24) * 12.5;
       let trackLength = percent * trackWidth;
       trackDom.style.width = trackLength + "px";
     },
@@ -80,17 +82,26 @@ export default {
 .controls-box {
   display: flex;
   line-height: 1;
+  position: absolute;
+  width: 100%;
+  top: 278px;
+  left: -10px;
+  color: #fff;
+  font-size: 12px;
 }
 .start-time {
   flex: 2;
   text-align: right;
   margin-left: 45px;
+  margin-top: 5px;
 }
 .continue-time {
   flex: 20;
-  background-color: black;
   height: 3px;
   margin: 4px;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+  margin-top: 9px;
 }
 .continue-time .track {
   background-color: red;
@@ -100,12 +111,25 @@ export default {
 .end-time {
   flex: 3;
   text-align: left;
+  margin-top: 5px;
 }
 .rate {
-  flex: 6;
+  /* flex: 6; */
+  border: 1px solid #ffffff;
+  padding: 3px 0;
+  border-radius: 30px 28px;
+  width: 35px;
+  margin: 0 5px;
 }
 .full-page {
-  flex: 5;
-  text-align: left;
+  /* flex: 5; */
+  /* text-align: left; */
+  /* margin-top: 5px; */
+  /* background-image: url('../assets/quanping.png'); */
+  /* background-repeat: no-repeat; */
+}
+.full-page img {
+  width: 20px;
+  height: 18px;
 }
 </style>

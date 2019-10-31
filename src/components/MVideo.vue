@@ -18,13 +18,17 @@
       </div>
       <div class="mock" @click="clickMock"></div>
       <!-- 播放/暂停按钮 -->
-      <div class="text-container" @click="clickMock" v-show="showText">{{DomText}}</div>
+      <div class="text-container" @click="clickMock" v-show="showText">
+        <!-- {{DomText}} -->
+        <img :src="srcUrl" alt="暂停/播放" />
+      </div>
     </div>
     <m-controls
       :hadPlayTime="timeDisplay"
       :totalTime="totalTime"
       @changePalyRate="changeRate"
       @fullScreen="fullPage"
+      v-if="showControls"
     ></m-controls>
     <!-- <div class="detail">商品详情展示</div> -->
   </div>
@@ -45,7 +49,8 @@ function FullScreen() {
   }
 }
 import MControls from "./MControls";
-
+import zanting from "../assets/zanting_1.png";
+import bofang from "../assets/bofang_2.png";
 export default {
   data() {
     return {
@@ -60,7 +65,9 @@ export default {
       //当前播放时间
       timeDisplay: 0,
       goFlag: null,
-      clientWidth: 0
+      clientWidth: 0,
+      showControls: false,
+      srcUrl: ""
     };
   },
   components: {
@@ -84,9 +91,11 @@ export default {
   methods: {
     // 播放/暂停
     clickMock() {
+      this.showControls = true;
       if (this.refDom.paused) {
         this.refDom.play();
         this.DomText = "暂停";
+        this.srcUrl = zanting;
         if (this.showText) {
           let _this = this;
           setTimeout(() => {
@@ -99,6 +108,7 @@ export default {
         clearInterval(this.goFlag);
         this.refDom.pause();
         this.DomText = "播放";
+        this.srcUrl = bofang;
         if (!this.showText) {
           let _this = this;
           setTimeout(() => {
@@ -151,6 +161,7 @@ export default {
   position: absolute;
   left: 0;
   bottom: 47px;
+  display: none;
 }
 .line .wrap {
   background-color: black;
@@ -175,7 +186,7 @@ export default {
   position: absolute;
   top: 120px;
   left: 160px;
-  background: #f2f2f2;
+  background: transparent;
   border: 1px solid #ccc;
   border-radius: 100%;
   width: 50px;
@@ -183,5 +194,10 @@ export default {
   align-items: center;
   justify-content: center;
   display: flex;
+}
+.text-container img {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
 }
 </style>
